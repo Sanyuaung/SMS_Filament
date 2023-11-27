@@ -36,7 +36,7 @@ class SubjectResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

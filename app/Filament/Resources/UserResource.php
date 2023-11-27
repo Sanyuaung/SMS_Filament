@@ -58,16 +58,18 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('No')
+                ->rowIndex(),
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('role.name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('facebook_id')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('google_id')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -77,6 +79,7 @@ class UserResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('name', 'desc')
             ->filters([
                 TrashedFilter::make(),
             ])

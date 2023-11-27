@@ -45,11 +45,14 @@ class StateResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                'country.name',
+            ])
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('country.name')
-                    ->searchable()
+                    ->searchable()->sortable(),
             ])
             ->filters([
                 TrashedFilter::make(),

@@ -35,12 +35,10 @@ class EnrollmentResource extends Resource
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name}")
                     ->searchable(['name']),
                 Select::make('room_id')
-                    ->relationship(
-                        name: 'room',
-                        modifyQueryUsing: fn (Builder $query) => $query->orderBy('name'),
-                    )
-                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->room_no}")
-                    ->searchable(['name']),
+                    ->required()
+                    ->relationship('room', fn ($query) => $query->orderBy('room_no'))
+                    ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->room_no} - {$record->name}"),
+
             ]);
     }
 
@@ -49,9 +47,13 @@ class EnrollmentResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('student.name')
-                    ->searchable(),
-                TextColumn::make('room.name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
+                TextColumn::make('room')
+                    ->formatStateUsing(function ($state) {
+                        $decodedState = json_decode($state, true);
+                        return __("{$decodedState['name']} / Room No ({$decodedState['room_no']})");
+                    })
+                    ->searchable()->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

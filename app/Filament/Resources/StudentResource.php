@@ -6,10 +6,12 @@ use App\Filament\Resources\StudentResource\Pages;
 use App\Filament\Resources\StudentResource\RelationManagers;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Room;
 use App\Models\State;
 use App\Models\Student;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\MorphToSelect;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -56,7 +58,8 @@ class StudentResource extends Resource
                     ->maxLength(255),
                 Select::make('room_id')
                     ->required()
-                    ->relationship(name: 'room', titleAttribute: 'room_no'),
+                    ->relationship('room', fn ($query) => $query->orderBy('room_no'))
+                    ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->room_no} - {$record->name}"),
                 Select::make('country_id')
                     ->options(Country::query()->pluck('name', 'id'))
                     ->live(),
@@ -78,32 +81,41 @@ class StudentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                TextColumn::make('user.name')
-                    ->searchable(),
-                TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('father_name')
-                    ->searchable(),
-                TextColumn::make('nrc')
-                    ->searchable(),
-                TextColumn::make('dob')
-                    ->searchable(),
-                TextColumn::make('ph_no')
-                    ->searchable(),
-                TextColumn::make('room.room_no')
-                    ->searchable(),
-                // TextColumn::make('room.name')
-                //     ->searchable(),
-                TextColumn::make('address')
-                    ->searchable(),
-                TextColumn::make('country.name')
-                    ->searchable(),
-                TextColumn::make('state.name')
-                    ->searchable(),
-                TextColumn::make('city.name')
-                    ->searchable(),
+            ->groups([
+                'name',
+                'father_name',
             ])
+            ->columns([
+                TextColumn::make('No')
+                    ->rowIndex(),
+                TextColumn::make('user.name')
+                    ->searchable()->sortable(),
+                TextColumn::make('name')
+                    ->searchable()->sortable(),
+                TextColumn::make('father_name')
+                    ->searchable()->sortable(),
+                TextColumn::make('nrc')
+                    ->searchable()->sortable(),
+                TextColumn::make('dob')
+                    ->searchable()->sortable(),
+                TextColumn::make('ph_no')
+                    ->searchable()->sortable(),
+                TextColumn::make('room')
+                    ->formatStateUsing(function ($state) {
+                        $decodedState = json_decode($state, true);
+                        return __("{$decodedState['name']} / Room No ({$decodedState['room_no']})");
+                    })
+                    ->searchable()->sortable(),
+                TextColumn::make('address')
+                    ->searchable()->sortable(),
+                TextColumn::make('country.name')
+                    ->searchable()->sortable(),
+                TextColumn::make('state.name')
+                    ->searchable()->sortable(),
+                TextColumn::make('city.name')
+                    ->searchable()->sortable(),
+            ])
+            ->defaultSort('name', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])

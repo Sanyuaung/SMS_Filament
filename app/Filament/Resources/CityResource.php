@@ -45,11 +45,16 @@ class CityResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                'state.name',
+            ])
             ->columns([
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('state.name')
-                    ->searchable()
+                    ->searchable()->sortable(),
             ])
             ->filters([
                 TrashedFilter::make(),

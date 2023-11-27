@@ -67,25 +67,29 @@ class TeacherResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                'name',
+                'father_name',
+            ])
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('father_name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('nrc')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('dob')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('ph_no')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('address')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('country.name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('state.name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('city.name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

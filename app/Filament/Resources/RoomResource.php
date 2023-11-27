@@ -46,13 +46,18 @@ class RoomResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                'name',
+                'room_no',
+                'floor',
+            ])
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('room_no')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('floor')
-                    ->searchable(),
+                    ->searchable()->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
