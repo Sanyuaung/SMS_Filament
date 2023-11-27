@@ -8,6 +8,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Room extends Model
 {
-    use HasFactory,SoftDeletes;
-    protected $guarderd =[];
+    use HasFactory, SoftDeletes;
+    // protected $guarderd = [];
+    protected $fillable = [
+        'name',
+        'room_no',
+        'floor'
+    ];
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+    public function enrollment()
+    {
+        return $this->hasOne(Enrollment::class);
+    }
 }

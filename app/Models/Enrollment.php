@@ -10,4 +10,12 @@ class Enrollment extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = [];
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
 }

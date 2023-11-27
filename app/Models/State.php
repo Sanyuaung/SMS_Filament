@@ -19,4 +19,12 @@ class State extends Model
     {
         return $this->hasMany(City::class);
     }
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+    public function teachers()
+    {
+        return $this->hasMany(Teacher::class);
+    }
 }

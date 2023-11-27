@@ -6,11 +6,15 @@ use App\Filament\Resources\EnrollmentResource\Pages;
 use App\Filament\Resources\EnrollmentResource\RelationManagers;
 use App\Models\Enrollment;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class EnrollmentResource extends Resource
@@ -23,7 +27,20 @@ class EnrollmentResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Select::make('student_id')
+                    ->relationship(
+                        name: 'student',
+                        modifyQueryUsing: fn (Builder $query) => $query->orderBy('name'),
+                    )
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name}")
+                    ->searchable(['name']),
+                Select::make('room_id')
+                    ->relationship(
+                        name: 'room',
+                        modifyQueryUsing: fn (Builder $query) => $query->orderBy('name'),
+                    )
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->room_no}")
+                    ->searchable(['name']),
             ]);
     }
 
@@ -31,7 +48,10 @@ class EnrollmentResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('student.name')
+                    ->searchable(),
+                TextColumn::make('room.name')
+                    ->searchable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

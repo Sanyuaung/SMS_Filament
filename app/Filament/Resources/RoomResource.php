@@ -6,9 +6,12 @@ use App\Filament\Resources\RoomResource\Pages;
 use App\Filament\Resources\RoomResource\RelationManagers;
 use App\Models\Room;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,7 +26,20 @@ class RoomResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('room_no')
+                    ->required()
+                    ->maxLength(255),
+                Select::make('floor')
+                    ->options([
+                        'Ground' => 'Ground',
+                        'First' => 'First',
+                        'Second' => 'Second',
+                        'Third' => 'Third',
+                    ])
+                    ->required()
             ]);
     }
 
@@ -31,7 +47,12 @@ class RoomResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->searchable(),
+                TextColumn::make('room_no')
+                    ->searchable(),
+                TextColumn::make('floor')
+                    ->searchable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
