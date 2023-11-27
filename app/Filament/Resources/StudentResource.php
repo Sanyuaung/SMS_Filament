@@ -119,7 +119,7 @@ class StudentResource extends Resource
                 TextColumn::make('city.name')
                     ->searchable()->sortable(),
             ])
-            ->defaultSort('name', 'desc')
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])

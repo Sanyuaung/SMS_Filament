@@ -93,6 +93,7 @@ class TeacherResource extends Resource
                 TextColumn::make('city.name')
                     ->searchable()->sortable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])

@@ -46,7 +46,8 @@ class UserResource extends Resource
                 TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->minValue(8),
                 TextInput::make('facebook_id')
                     ->maxLength(255),
                 TextInput::make('google_id')
@@ -59,7 +60,7 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('No')
-                ->rowIndex(),
+                    ->rowIndex(),
                 TextColumn::make('name')
                     ->searchable()->sortable(),
                 TextColumn::make('email')
@@ -79,7 +80,7 @@ class UserResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('name', 'desc')
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 TrashedFilter::make(),
             ])

@@ -77,8 +77,14 @@ class AttendanceResource extends Resource
                 TextColumn::make('date')
                     ->searchable()->sortable(),
                 TextColumn::make('status')
+                    ->color(fn (string $state): string => match ($state) {
+                        'Leave' => 'warning',
+                        'Present' => 'success',
+                        'Absent' => 'danger',
+                    })
                     ->searchable()->sortable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
