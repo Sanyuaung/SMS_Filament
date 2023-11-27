@@ -46,6 +46,8 @@ class EnrollmentResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('student.name')
                     ->searchable()->sortable(),
                 TextColumn::make('room')

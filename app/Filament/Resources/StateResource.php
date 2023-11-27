@@ -49,6 +49,8 @@ class StateResource extends Resource
                 'country.name',
             ])
             ->columns([
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('name')
                     ->searchable()->sortable(),
                 TextColumn::make('country.name')

@@ -51,6 +51,8 @@ class CityResource extends Resource
             ->columns([
                 TextColumn::make('No')
                     ->rowIndex(),
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('name')
                     ->searchable()->sortable(),
                 TextColumn::make('state.name')

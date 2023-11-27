@@ -72,6 +72,8 @@ class TeacherResource extends Resource
                 'father_name',
             ])
             ->columns([
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('name')
                     ->searchable()->sortable(),
                 TextColumn::make('father_name')

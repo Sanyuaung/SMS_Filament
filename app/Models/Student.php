@@ -30,6 +30,10 @@ class Student extends Model
     {
         return $this->belongsTo(City::class);
     }
+    public function attendance()
+    {
+        return $this->hasOne(Attendance::class);
+    }
     public function enrollment()
     {
         return $this->hasOne(Enrollment::class);

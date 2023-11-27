@@ -59,19 +59,23 @@ class StudentResource extends Resource
                 Select::make('room_id')
                     ->required()
                     ->relationship('room', fn ($query) => $query->orderBy('room_no'))
-                    ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->room_no} - {$record->name}"),
+                    ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->room_no} - {$record->name}")
+                    ->native(false),
                 Select::make('country_id')
                     ->options(Country::query()->pluck('name', 'id'))
+                    ->native(false)
                     ->live(),
                 Select::make('state_id')
                     ->options(fn (Get $get): Collection => State::query()
                         ->where('country_id', $get('country_id'))
                         ->pluck('name', 'id'))
+                    ->native(false)
                     ->live(),
                 Select::make('city_id')
                     ->options(fn (Get $get): Collection => City::query()
                         ->where('state_id', $get('state_id'))
-                        ->pluck('name', 'id')),
+                        ->pluck('name', 'id'))
+                    ->native(false),
                 TextInput::make('address')
                     ->required()
                     ->maxLength(255),

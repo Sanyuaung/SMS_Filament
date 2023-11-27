@@ -35,6 +35,8 @@ class SubjectResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('name')
                     ->searchable()->sortable(),
             ])

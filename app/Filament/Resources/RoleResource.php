@@ -42,6 +42,8 @@ class RoleResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('name')
                     ->searchable(),
             ])

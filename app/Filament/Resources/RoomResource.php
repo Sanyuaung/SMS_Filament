@@ -52,6 +52,8 @@ class RoomResource extends Resource
                 'floor',
             ])
             ->columns([
+                TextColumn::make('No')
+                    ->rowIndex(),
                 TextColumn::make('name')
                     ->searchable()->sortable(),
                 TextColumn::make('room_no')
